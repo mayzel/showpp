@@ -1,0 +1,55 @@
+;zgpg
+;avance-version (12/01/11)
+;
+;$CLASS=HighRes
+;$DIM=2D
+;$TYPE=
+;$SUBTYPE=
+;$COMMENT=
+
+
+#include <Avance.incl>
+#include <Delay.incl>
+#include <Grad.incl>
+
+"p0=p1*cnst0/90."
+"acqt0=-tan((p0/p1)*(PI/4))*p1*2/PI"
+"d0=3u"
+"DELTA=1m"
+
+1 ze
+2 30m BLKGRAD
+  d1
+  4u pl1:f1
+  4u UNBLKGRAD
+  p16:gp1
+  d16
+  (p0 ph1):f1 
+  d0
+  (p3 ph1):f2
+  DELTA
+  go=2 ph31
+  30m mc #0 to 2 F0(zd)
+  4u BLKGRAD
+exit
+
+ph1=0 
+ph29=0
+ph31=0
+
+
+;cnst0: excitation pulse tip angle [10-30]
+;pl1 : f1 channel - power level for pulse (default)
+;p1 : f1 channel -  90 degree high power pulse
+;d1 : relaxation delay; 1-5 * T1
+;d20: delay between start of different 1D spectra
+;ns: 1 * n
+;td1: number of experiments
+
+;for z-only gradients:
+;gpz1: -23%
+
+;use gradient files:
+;gpnam1: SMSQ10.100
+
+;$Id:$
