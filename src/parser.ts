@@ -4,10 +4,10 @@ export interface Channel {
 }
 
 export interface Event {
-    channel: string; // id of the channel
+    channel: string;
     type: 'pulse' | 'gradient' | 'delay' | 'fid';
     label: string;
-    time: number; // start time
+    time: number;
     duration: number;
 }
 
@@ -24,11 +24,7 @@ export interface NeutralModel {
 }
 
 export function parsePulseProgram(content: string): NeutralModel {
-    // For now, return hardcoded data that looks like the target image.
-    // In the future, this function will parse the `content` string.
-    
-    // This is a rough approximation of the screenshot for now.
-    // Timings are arbitrary.
+    // Return hardcoded data that looks like the target image.
     const model: NeutralModel = {
         channels: [
             { id: 'f1', name: 'F1' },
@@ -36,7 +32,6 @@ export function parsePulseProgram(content: string): NeutralModel {
             { id: 'gp', name: 'Z' }
         ],
         events: [
-            // F1 channel
             { channel: 'f1', type: 'delay', label: '30m', time: 10, duration: 30 },
             { channel: 'f1', type: 'delay', label: 'D1', time: 40, duration: 50 },
             { channel: 'f1', type: 'delay', label: '4u', time: 90, duration: 4 },
@@ -49,10 +44,8 @@ export function parsePulseProgram(content: string): NeutralModel {
             { channel: 'f1', type: 'delay', label: '30m', time: 221, duration: 30 },
             { channel: 'f1', type: 'delay', label: '4u', time: 251, duration: 4 },
 
-            // F2 channel
             { channel: 'f2', type: 'pulse', label: 'P3 ph1', time: 140, duration: 10 },
 
-            // Z (gradient) channel
             { channel: 'gp', type: 'gradient', label: 'P16:G1', time: 100, duration: 15 }
         ],
         annotations: [

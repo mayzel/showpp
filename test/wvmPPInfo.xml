@@ -1,0 +1,697 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE Pulseprogram [
+<!ELEMENT Pulseprogram (Durs) >
+<!ATTLIST Pulseprogram 
+	source CDATA #REQUIRED
+	version CDATA #REQUIRED
+	path CDATA #REQUIRED
+>
+<!ELEMENT Phaseprograms (PTList?, Label?, Dur)* >
+<!ELEMENT Durs (PTList?, Label?, Dur)* >
+<!ELEMENT PTList (PTrain, Dur)* >
+<!ATTLIST PTList Align CDATA #REQUIRED >
+<!ELEMENT PTrain (Dur)* >
+<!ATTLIST PTList Align CDATA #IMPLIED >
+<!ELEMENT Dur (Name, Time?, Mult?, Event?, Phase?, Power?, Amplitude?, Pulse?, Shape?, Gradient?, Goto?, Loop?) >
+<!ATTLIST Dur Line CDATA #REQUIRED >
+<!ELEMENT Name (#PCDATA) >
+<!ELEMENT Time (#PCDATA) >
+<!ELEMENT Mult (#PCDATA) >
+<!ELEMENT Event (Channel?, Purpose?, Par?, Synch?, Gate?, Equation?, Fileno?, List?, Argument?, Kind?) >
+<!ATTLIST Event Type CDATA #REQUIRED >
+<!ELEMENT Channel (#PCDATA) >
+<!ELEMENT Purpose (#PCDATA) >
+<!ELEMENT Par (#PCDATA) >
+<!ELEMENT Synch (#PCDATA) >
+<!ELEMENT Gate (#PCDATA) >
+<!ELEMENT Equation (#PCDATA) >
+<!ELEMENT Fileno (#PCDATA) >
+<!ELEMENT List (#PCDATA) >
+<!ELEMENT Argument (#PCDATA) >
+<!ELEMENT Kind (#PCDATA) >
+<!ELEMENT Label (#PCDATA) >
+<!ELEMENT Phase (Channel, Phaseprogram?, Value?, Par?, Destination?, Addphase?) >
+<!ELEMENT Phaseprogram (#PCDATA) >
+<!ELEMENT Destination (#PCDATA) >
+<!ELEMENT Value (#PCDATA) >
+<!ELEMENT Power ((Par | Value | List), Unit?) >
+<!ELEMENT Amplitude ((Par | Value | List), Unit?) >
+<!ELEMENT Pulse (Channel) >
+<!ELEMENT Shape (Par, Channel, Power) >
+<!ELEMENT Gradient EMPTY >
+<!ELEMENT Goto (Label, Condition?) >
+<!ELEMENT Loop (Label, (Counter | Value)) >
+<!ELEMENT Counter (#PCDATA) >
+<!ELEMENT Delays (#PCDATA) >
+<!ELEMENT Pulses (#PCDATA) >
+<!ELEMENT Loopcounters (#PCDATA) >
+<!ELEMENT DelayIncrements (#PCDATA) >
+<!ELEMENT PulseIncrements (#PCDATA) >
+<!ELEMENT Shapes (Name, Number, NumSlices, Offsfreq, Align, Amplitudes, Phases) >
+<!ELEMENT Number (#PCDATA) >
+<!ELEMENT NumSlices (#PCDATA) >
+<!ELEMENT Offsfreq (#PCDATA) >
+<!ELEMENT Align (#PCDATA) >
+<!ELEMENT Amplitudes (#PCDATA) >
+<!ELEMENT Phases (#PCDATA) >
+]>
+
+<Pulseprogram source="go4" version="4.0" 
+		path="/root/.topspin-BladeEpu/local_acqu/simulDirs/0_test/5/">
+<Variables>
+	"d12=20u"
+	"D[12]=d12"
+	"D[65]=de1"
+	"D[67]=de"
+	"D[69]=derx"
+	"D[70]=deadc"
+	"D[71]=depa"
+	"D[72]=aq"
+	"D[80]=dw"
+	"D[88]=dwov"
+	"D[128]=aq_job1"
+	"TAU=de+p1*2/3.1416+50u"
+	"D[175]=TAU"
+	"MCWRK = 0.333333*30m"
+	"D[206]=MCWRK"
+	"MCREST = 30m - 30m"
+	"D[207]=MCREST"
+	"p2=p1*2"
+	"P[2]=p2"
+	"acqt0_F1=0"
+	"P[73]=acqt0_F1"
+	"P[88]=pcpd1"
+	"P[89]=pcpd2"
+	"P[90]=pcpd3"
+	"P[91]=pcpd4"
+	"P[92]=pcpd5"
+	"P[93]=pcpd6"
+	"P[94]=pcpd7"
+	"P[95]=pcpd8"
+	"L[72]=ds"
+	"L[73]=ns"
+	"L[75]=td"
+	"L[83]=decim"
+	"L[93]=td0"
+	"L[109]=spincnt"
+</Variables>
+<WvmVariables>
+	<UserPulse><UserName>p2</UserName><ForegroundPulse>p1*2</ForegroundPulse></UserPulse>
+	<UserPulse><UserName>acqt0_F1</UserName><ForegroundPulse>0</ForegroundPulse></UserPulse>
+</WvmVariables>
+<Mainprogram>
+	<Name>/root/.topspin-BladeEpu/local_acqu/simulDirs/0_test/5/pulseprogram.precomp</Name>
+	<Durs>
+		<Dur Line="0">
+			<Name>fixdel</Name>
+			<Time>0.200000</Time>
+			<Event type="II"><Channel>1</Channel></Event>
+		</Dur>
+		<Dur Line="0">
+			<Name>fixdel</Name>
+			<Time>0.200000</Time>
+			<Event type="II"><Channel>1</Channel></Event>
+		</Dur>
+		<Dur Line="0">
+			<Name>fixdel</Name>
+			<Time>0.200000</Time>
+			<Event type="II"><Channel>1</Channel></Event>
+		</Dur>
+		<Dur Line="0">
+			<Name>fixdel</Name>
+			<Time>0.200000</Time>
+			<Event type="II"><Channel>1</Channel></Event>
+		</Dur>
+<!-- zgesgp line   1->;zgesgp -->
+<!-- zgesgp line   2->;avance-version (12/01/11) -->
+<!-- zgesgp line   3->;1D sequence -->
+<!-- zgesgp line   4->;water suppression using excitation sculpting with gradients -->
+<!-- zgesgp line   5->;T.-L. Hwang & A.J. Shaka, J. Magn. Reson., -->
+<!-- zgesgp line   6->;   Series A 112 275-279 (1995) -->
+<!-- zgesgp line   7->; -->
+<!-- zgesgp line   8->;$CLASS=HighRes -->
+<!-- zgesgp line   9->;$DIM=1D -->
+<!-- zgesgp line  10->;$TYPE= -->
+<!-- zgesgp line  11->;$SUBTYPE= -->
+<!-- zgesgp line  12->;$COMMENT= -->
+<!-- zgesgp line  15->prosol relations=<triple> -->
+<!-- Avance.incl line   1->;Avance4.incl -->
+<!-- Avance.incl line   2->;   for AV 4 -->
+<!-- Avance.incl line   3->; -->
+<!-- Avance.incl line   4->;avance-version (16/08/18) -->
+<!-- Avance.incl line   5->; -->
+<!-- Avance.incl line   6->;$CLASS=Common Incl -->
+<!-- Avance.incl line   7->;$COMMENT= -->
+<!-- Avance.incl line  19->;setrtp0 denotes TimingController -->
+<!-- Avance.incl line 123->;#define LOWQ -->
+<!-- Avance.incl line 124->;#define HIGHQ -->
+<!-- Avance.incl line 127->;#define MIX_UP -->
+<!-- Avance.incl line 128->;#define MIX_DOWN -->
+<!-- Avance.incl line 136->;$Id:$ -->
+<!-- Grad.incl line   1->;Grad4.incl  -  include file for Gradient Spectroscopy -->
+<!-- Grad.incl line   2->;   for AV 4 -->
+<!-- Grad.incl line   3->; -->
+<!-- Grad.incl line   4->;avance-version (16/05/23) -->
+<!-- Grad.incl line   5->; -->
+<!-- Grad.incl line   6->;$CLASS=Common Incl -->
+<!-- Grad.incl line   7->;$COMMENT= -->
+<!-- Grad.incl line  26->define list<gradient> EA=<EA> -->
+<!-- Grad.incl line  30->;$Id:$ -->
+<!-- Delay.incl line   1->;Delay.incl  -  include file for commonly used delays -->
+<!-- Delay.incl line   2->; -->
+<!-- Delay.incl line   3->;version (13/08/07) -->
+<!-- Delay.incl line   4->; -->
+<!-- Delay.incl line   5->;$CLASS=Common Incl -->
+<!-- Delay.incl line   6->;$COMMENT= -->
+<!-- Delay.incl line   9->;general delays -->
+<!-- Delay.incl line  11->define delay DELTA -->
+<!-- Delay.incl line  12->define delay DELTA1 -->
+<!-- Delay.incl line  13->define delay DELTA2 -->
+<!-- Delay.incl line  14->define delay DELTA3 -->
+<!-- Delay.incl line  15->define delay DELTA4 -->
+<!-- Delay.incl line  16->define delay DELTA5 -->
+<!-- Delay.incl line  17->define delay DELTA6 -->
+<!-- Delay.incl line  18->define delay DELTA7 -->
+<!-- Delay.incl line  19->define delay DELTA8 -->
+<!-- Delay.incl line  20->define delay DELTA9 -->
+<!-- Delay.incl line  21->define delay DELTA10 -->
+<!-- Delay.incl line  22->define delay DELTA11 -->
+<!-- Delay.incl line  23->define delay DELTA12 -->
+<!-- Delay.incl line  24->define delay DELTA13 -->
+<!-- Delay.incl line  25->define delay DELTA14 -->
+<!-- Delay.incl line  26->define delay DELTA15 -->
+<!-- Delay.incl line  27->define delay DELTA16 -->
+<!-- Delay.incl line  29->define delay TAU -->
+<!-- Delay.incl line  30->define delay TAU1 -->
+<!-- Delay.incl line  31->define delay TAU2 -->
+<!-- Delay.incl line  32->define delay TAU3 -->
+<!-- Delay.incl line  33->define delay TAU4 -->
+<!-- Delay.incl line  34->define delay TAU5 -->
+<!-- Delay.incl line  35->define delay TAU6 -->
+<!-- Delay.incl line  36->define delay TAU7 -->
+<!-- Delay.incl line  37->define delay TAU8 -->
+<!-- Delay.incl line  38->define delay TAU9 -->
+<!-- Delay.incl line  40->define delay INCR1 -->
+<!-- Delay.incl line  41->define delay INCR2 -->
+<!-- Delay.incl line  42->define delay INCR3 -->
+<!-- Delay.incl line  43->define delay INCR4 -->
+<!-- Delay.incl line  44->define delay INCR5 -->
+<!-- Delay.incl line  45->define delay INCR6 -->
+<!-- Delay.incl line  48->;delays for centering pulses -->
+<!-- Delay.incl line  50->define delay CEN_HN1 -->
+<!-- Delay.incl line  51->define delay CEN_HN2 -->
+<!-- Delay.incl line  52->define delay CEN_HN3 -->
+<!-- Delay.incl line  53->define delay CEN_HC1 -->
+<!-- Delay.incl line  54->define delay CEN_HC2 -->
+<!-- Delay.incl line  55->define delay CEN_HC3 -->
+<!-- Delay.incl line  56->define delay CEN_HC4 -->
+<!-- Delay.incl line  57->define delay CEN_HP1 -->
+<!-- Delay.incl line  58->define delay CEN_HP2 -->
+<!-- Delay.incl line  59->define delay CEN_CN1 -->
+<!-- Delay.incl line  60->define delay CEN_CN2 -->
+<!-- Delay.incl line  61->define delay CEN_CN3 -->
+<!-- Delay.incl line  62->define delay CEN_CN4 -->
+<!-- Delay.incl line  63->define delay CEN_CP1 -->
+<!-- Delay.incl line  64->define delay CEN_CP2 -->
+<!-- Delay.incl line  67->;loop counters -->
+<!-- Delay.incl line  69->define loopcounter COUNTER -->
+<!-- Delay.incl line  70->define loopcounter SCALEF -->
+<!-- Delay.incl line  71->define loopcounter FACTOR1 -->
+<!-- Delay.incl line  72->define loopcounter FACTOR2 -->
+<!-- Delay.incl line  73->define loopcounter FACTOR3 -->
+<!-- Delay.incl line  74->define loopcounter FACTOR4 -->
+<!-- Delay.incl line  75->define loopcounter FACTOR5 -->
+<!-- Delay.incl line  76->define loopcounter FACTOR6 -->
+<!-- Delay.incl line  80->;$Id:$ -->
+<!-- zgesgp line  23->"p2=p1*2" -->
+<!-- zgesgp line  24->"d12=20u" -->
+<!-- zgesgp line  27->"TAU=de+p1*2/3.1416+50u" -->
+<!-- zgesgp line  30->"acqt0=0" -->
+<!-- zgesgp line  31->baseopt_echo -->
+<!-- zgesgp line  32, macro exp. def. 1->; dimension 1D; AQ_mode  -->
+<!-- zgesgp line  32, macro exp. def. 2->define delay MCWRK -->
+<!-- zgesgp line  32, macro exp. def. 3->define delay MCREST -->
+<!-- zgesgp line  32, macro exp. def. 4->"MCREST = 30m - 30m" -->
+<!-- zgesgp line  32, macro exp. def. 5->"MCWRK = 0.333333*30m" -->
+<!-- zgesgp line  34->1 ze -->
+		<Label>1</Label>
+		<Dur Line="171">
+			<Name>fixdel</Name>
+			<Time>3000.000000</Time>
+			<Event type="ze">
+				<Channel>2</Channel>
+			</Event>
+		</Dur>
+<!-- zgesgp line  35, macro exp. start 1->2 MCWRK  * 2 -->
+		<Label>2</Label>
+		<Dur Line="175">
+			<Name>MCWRK</Name>
+			<Mult>2</Mult>
+		</Dur>
+<!-- zgesgp line  35, macro exp. start 2->LBLF0, MCWRK -->
+		<Label>LBLF0</Label>
+		<Dur Line="176">
+			<Name>MCWRK</Name>
+		</Dur>
+<!-- zgesgp line  35, macro exp. start 3->  MCREST -->
+		<Dur Line="177">
+			<Name>MCREST</Name>
+		</Dur>
+<!-- zgesgp line  36->  d12 pl1:f1 setrtp0^0 ctrlgrad 4047 -->
+		<Dur Line="179">
+			<Name>d12</Name>
+			<Power> <Par>PLW1</Par><Channel>1</Channel></Power>
+			<gradientStatement> <type>GRCTRL</type> <num>4047</num>
+			</gradientStatement>
+		</Dur>
+<!-- zgesgp line  37->  d1 -->
+		<Dur Line="180">
+			<Name>d1</Name>
+		</Dur>
+<!-- zgesgp line  38->  p1 ph1 -->
+<!-- zgesgp line  39->   -->
+		<Dur Line="181">
+			<Name>p1</Name>
+			<Phase>
+				<Phaseprogram>ph1</Phaseprogram>
+				<Channel>1</Channel>
+			</Phase>
+		</Dur>
+<!-- zgesgp line  40->  50u setrtp0|0 ctrlgrad 0 -->
+		<Dur Line="183">
+			<Name>fixdel</Name>
+			<Time>50.000000</Time>
+			<gradientStatement> <type>GRCTRL</type> <num>0</num>
+			</gradientStatement>
+		</Dur>
+<!-- zgesgp line  41->  p16:gp1 -->
+		<Dur Line="184">
+			<Name>p16</Name>
+			<gradientStatement> <type>GRST</type> <num>0</num>
+				<gradshape>GP1</gradshape>
+			</gradientStatement>
+		</Dur>
+<!-- zgesgp line  42->  d16 pl0:f1 -->
+		<Dur Line="185">
+			<Name>d16</Name>
+			<Power> <Par>PLW0</Par><Channel>1</Channel></Power>
+		</Dur>
+<!-- zgesgp line  43->  (p12:sp1 ph2:r):f1 -->
+		<PTList> <Align>left</Align>
+			<PTrain>
+				<Dur Line="186">
+					<Name>p12</Name>
+					<Shape>
+						<Par>SP1</Par>
+						<Channel>1</Channel>
+						<Power>shape</Power>
+					</Shape>
+					<Phase>
+						<Phaseprogram>ph2</Phaseprogram>
+						<Channel>1</Channel>
+					</Phase>
+				</Dur>
+			</PTrain>
+		</PTList>
+<!-- zgesgp line  44->  4u -->
+		<Dur Line="187">
+			<Name>fixdel</Name>
+			<Time>4.000000</Time>
+		</Dur>
+<!-- zgesgp line  45->  d12 pl1:f1 -->
+		<Dur Line="188">
+			<Name>d12</Name>
+			<Power> <Par>PLW1</Par><Channel>1</Channel></Power>
+		</Dur>
+<!-- zgesgp line  47->  p2 ph3 -->
+		<Dur Line="190">
+			<Name>p2</Name>
+			<Phase>
+				<Phaseprogram>ph3</Phaseprogram>
+				<Channel>1</Channel>
+			</Phase>
+		</Dur>
+<!-- zgesgp line  49->  4u -->
+		<Dur Line="192">
+			<Name>fixdel</Name>
+			<Time>4.000000</Time>
+		</Dur>
+<!-- zgesgp line  50->  p16:gp1 -->
+		<Dur Line="193">
+			<Name>p16</Name>
+			<gradientStatement> <type>GRST</type> <num>1</num>
+				<gradshape>GP1</gradshape>
+			</gradientStatement>
+		</Dur>
+<!-- zgesgp line  51->  d16  -->
+		<Dur Line="194">
+			<Name>d16</Name>
+		</Dur>
+<!-- zgesgp line  52->  TAU -->
+		<Dur Line="195">
+			<Name>TAU</Name>
+		</Dur>
+<!-- zgesgp line  53->  p16:gp2 -->
+		<Dur Line="196">
+			<Name>p16</Name>
+			<gradientStatement> <type>GRST</type> <num>2</num>
+				<gradshape>GP2</gradshape>
+			</gradientStatement>
+		</Dur>
+<!-- zgesgp line  54->  d16 pl0:f1 -->
+		<Dur Line="197">
+			<Name>d16</Name>
+			<Power> <Par>PLW0</Par><Channel>1</Channel></Power>
+		</Dur>
+<!-- zgesgp line  55->  (p12:sp1 ph4:r):f1 -->
+		<PTList> <Align>left</Align>
+			<PTrain>
+				<Dur Line="198">
+					<Name>p12</Name>
+					<Shape>
+						<Par>SP1</Par>
+						<Channel>1</Channel>
+						<Power>shape</Power>
+					</Shape>
+					<Phase>
+						<Phaseprogram>ph4</Phaseprogram>
+						<Channel>1</Channel>
+					</Phase>
+				</Dur>
+			</PTrain>
+		</PTList>
+<!-- zgesgp line  56->  4u -->
+		<Dur Line="199">
+			<Name>fixdel</Name>
+			<Time>4.000000</Time>
+		</Dur>
+<!-- zgesgp line  57->  d12 pl1:f1 -->
+		<Dur Line="200">
+			<Name>d12</Name>
+			<Power> <Par>PLW1</Par><Channel>1</Channel></Power>
+		</Dur>
+<!-- zgesgp line  59->  p2 ph5 -->
+		<Dur Line="202">
+			<Name>p2</Name>
+			<Phase>
+				<Phaseprogram>ph5</Phaseprogram>
+				<Channel>1</Channel>
+			</Phase>
+		</Dur>
+<!-- zgesgp line  61->  4u -->
+		<Dur Line="204">
+			<Name>fixdel</Name>
+			<Time>4.000000</Time>
+		</Dur>
+<!-- zgesgp line  62->  p16:gp2 -->
+		<Dur Line="205">
+			<Name>p16</Name>
+			<gradientStatement> <type>GRST</type> <num>3</num>
+				<gradshape>GP2</gradshape>
+			</gradientStatement>
+		</Dur>
+<!-- zgesgp line  63->  d16 -->
+		<Dur Line="206">
+			<Name>d16</Name>
+		</Dur>
+<!-- zgesgp line  65->  go=2 ph31 -->
+		<PTList> <Align>left</Align>
+			<PTrain>
+				<Dur Line="208">
+					<Name>fixdel</Name>
+					<Time>5.500000</Time>
+				</Dur>
+				<Dur Line="208">
+					<Name>fixdel</Name>
+					<Time>4.500000</Time>
+					<Pulse><Channel>1</Channel></Pulse>
+					<Event type="ADCGO">
+						<Channel>1</Channel>
+					</Event>
+					<Event type="SYREC"><Channel>1</Channel></Event>
+					<Phase>
+						<Phaseprogram>ph65</Phaseprogram>
+						<Channel>1</Channel>
+					</Phase>
+					<Phase>
+						<Phaseprogram>ph31</Phaseprogram>
+						<Channel>1</Channel>
+						<Destination>receive</Destination>
+					</Phase>
+				</Dur>
+			</PTrain>
+			<PTrain>
+				<Dur Line="208">
+					<Name>de</Name>
+				</Dur>
+				<Dur Line="208">
+					<Name>aq</Name>
+					<Event type="CPDPRG17">
+						<synch>yes</synch>
+						<gate>no</gate>
+						<Channel>1</Channel>
+					</Event>
+				</Dur>
+				<Dur Line="208">
+					<Name>fixdel</Name>
+					<Time>0.400000</Time>
+				</Dur>
+				<Dur Line="208">
+					<Name>fixdel</Name>
+					<Time>1.000000</Time>
+					<Event type="Dwelloff">
+						<Channel>1</Channel>
+					</Event>
+					<Event type="SYTRA"><Channel>1</Channel></Event>
+					<Event type="end of scan">
+						<Channel>2</Channel>
+					</Event>
+					<Event type="ipp2"></Event>
+					<Event type="ipp3"></Event>
+					<Event type="ipp4"></Event>
+					<Event type="ipp5"></Event>
+					<Event type="ipp31"></Event>
+					<Loop>
+						<Label>2</Label>
+						<Counter>ns</Counter>
+					</Loop>
+				</Dur>
+			</PTrain>
+		</PTList>
+<!-- zgesgp line  66, macro exp. mc 1->  MCWRK wr #0 -->
+		<Dur Line="210">
+			<Name>MCWRK</Name>
+			<Event type="wr">
+				<Channel>2</Channel>
+				<Fileno>0</Fileno>
+			</Event>
+		</Dur>
+<!-- zgesgp line  66, macro exp. mc 2->  MCWRK zd -->
+<!-- zgesgp line  66, macro exp. mc 3->  lo to LBLF0 times td0 -->
+		<Dur Line="211">
+			<Name>MCWRK</Name>
+			<Event type="zd">
+				<Channel>2</Channel>
+			</Event>
+			<Loop>
+				<Label>LBLF0</Label>
+				<Counter>td0</Counter>
+			</Loop>
+		</Dur>
+<!-- zgesgp line  67->  4u setrtp0^0 ctrlgrad 4047 -->
+		<Dur Line="215">
+			<Name>fixdel</Name>
+			<Time>4.000000</Time>
+			<gradientStatement> <type>GRCTRL</type> <num>4047</num>
+			</gradientStatement>
+		</Dur>
+<!-- zgesgp line  68->exit -->
+		<Dur Line="216">
+			<Name>fixdel</Name>
+			<Time>50000.000000</Time>
+			<gradientStatement> <type>GREND</type> <num>1</num>
+			</gradientStatement>
+		</Dur>
+		<Dur Line="216">
+			<Name>fixdel</Name>
+			<Time>10000.000000</Time>
+			<Event type="end of sequence">
+				<Channel>1</Channel>
+			</Event>
+		</Dur>
+		<Dur Line="216">
+			<Name>fixdel</Name>
+			<Time>10000.000000</Time>
+		</Dur>
+	</Durs>
+</Mainprogram>
+<Delays>
+  0.00000000  1.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00002000  0.00000000  0.00000000  0.00000000
+  0.00020000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000450  0.00000000  0.00001000  0.00000000  0.00000150  0.00000050  0.00000450
+  1.70393600  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  52.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.02500000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  1.70393600  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000
+</Delays>
+<Pulses>
+        9.00        9.00       18.00        0.00        0.00       16.50       25.00       50.00
+        0.00        0.00        0.00     1000.00     2000.00        0.00        0.00        0.00
+     1000.00     2500.00   100000.00      600.00        0.00        0.00        0.00        0.00
+        0.00        0.00       70.00        9.00        0.00     4000.00        0.00        0.00
+        0.00        0.00        0.00        0.00        0.00        0.00        0.00     2400.00
+      800.00     2200.00     1400.00     1700.00      200.00        0.00        0.00        0.00
+        0.00   100000.00     6000.00     1600.00        0.00        0.00        0.00     1300.00
+        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+       70.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+        0.00        0.00
+</Pulses>
+<Loopcounters>
+           1           1           1           1           1           1           1           1
+           1           1           1           1           1           1           1           1
+           1           1           1           1           1           1           1           1
+           1           1           1           1           1           1           1           1
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+           1           0           0           0           0           0           0           0
+           4          16           0       32768           1           1           1           1
+           1           1           1        2080           0           0           0           0
+           0           0           0           0           0           1           0           0
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0
+</Loopcounters>
+<DelayIncrements>
+  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000
+  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000
+  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000
+  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000
+  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000
+  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000
+  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000
+  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000
+</DelayIncrements>
+<PulseIncrements>
+        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+</PulseIncrements>
+<Power>
+           0         9.5           0           0           0           0           0           0
+           0   3.078e-05      1.2312       0.095           0           0           0           0
+           0           0         9.5     0.15704           0     0.28458           0           0
+           0           0           0           0           0           0           0           0
+  1.2312e-06           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+</Power>
+<ShapePower>
+           0   0.0022188           0           0           0           0           0           0
+           0           0           0  0.00013868           0           0           0           0
+           0           0           0           0           0           0   0.0013679    0.015199
+     0.10532    0.010175     0.23678    0.010175    0.077321    0.077321      1.2312           0
+   1.817e-06           0           0     0.18129           0           0     0.17983           0
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+</ShapePower>
+<Constants>
+           1           1           1           1           1           1           1           1
+           1           1           1           1           1           1           1           1
+           1           1           1           1           1           1           1           1
+           1           1           1           1           1           1           1           1
+           1           1           1           1           1           1           1           1
+           1           1           1           1           1           1           1           1
+           1           1           1           1           1           1           1           1
+           1           1           1           1           1           1           1           1
+</Constants>
+<Gradients>
+<xGrad>
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+</xGrad>
+<yGrad>
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+</yGrad>
+<zGrad>
+           0          31          11           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+           0           0           0           0           0           0           0           0
+</zGrad>
+
+</Gradients>
+<Phaseprograms>
+	<Phaseprogram>
+		<Name>ph65</Name>
+		<Increment> 90.00</Increment>
+		<Values>  0.00  </Values>
+	</Phaseprogram>
+	<Phaseprogram>
+		<Name>ph1</Name>
+		<Increment> 90.00</Increment>
+		<Values>  0.00  </Values>
+	</Phaseprogram>
+	<Phaseprogram>
+		<Name>ph2</Name>
+		<Increment> 90.00</Increment>
+		<Values>  0.00   90.00  </Values>
+	</Phaseprogram>
+	<Phaseprogram>
+		<Name>ph3</Name>
+		<Increment> 90.00</Increment>
+		<Values>180.00  270.00  </Values>
+	</Phaseprogram>
+	<Phaseprogram>
+		<Name>ph4</Name>
+		<Increment> 90.00</Increment>
+		<Values>  0.00    0.00   90.00   90.00  </Values>
+	</Phaseprogram>
+	<Phaseprogram>
+		<Name>ph5</Name>
+		<Increment> 90.00</Increment>
+		<Values>180.00  180.00  270.00  270.00  </Values>
+	</Phaseprogram>
+	<Phaseprogram>
+		<Name>ph31</Name>
+		<Increment> 90.00</Increment>
+		<Values>  0.00  180.00  180.00    0.00  </Values>
+	</Phaseprogram>
+</Phaseprograms>
+</Pulseprogram>
