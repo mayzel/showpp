@@ -41,8 +41,6 @@ If your pulse sequence files use a different extension (e.g., `.pp`), add this t
 
 - The extension currently uses hardcoded mock data for demonstration purposes.
 - Real-time parsing of Bruker XML pulse program files (`wvmPPInfo.xml`) is under development.
-- When opening a spinscript file, duplicate editors may briefly appear in some scenarios.
-- Closing the code editor may not immediately close the webview in all cases.
 
 ## Roadmap
 
@@ -54,13 +52,13 @@ If your pulse sequence files use a different extension (e.g., `.pp`), add this t
 ## Release Notes
 
 ### 0.0.2
-- Added auto-open feature for spinscript language files.
+- Added auto-open feature for spinscript language files with support for reopening cached files.
 - Implemented split-view layout with webview above and code editor below.
 - Added `showpp.closePulseSequenceViewer` command to close both views simultaneously.
-- Improved duplicate editor handling.
-- Added document close listener to auto-dispose webview.
-- Debounced auto-open listeners to prevent repeated triggering.
-- Updated package.json with spinscript language configuration.
+- Added visibility listener to auto-close webview when code editor is closed.
+- Automatic re-open of split view when the same spinscript file is reopened.
+- Eliminated duplicate editor creation and improved editor lifecycle management.
+- Added proper cleanup of webview and document state on close events.
 
 ### 0.0.1
 - Initial release with basic WebView and D3.js integration.

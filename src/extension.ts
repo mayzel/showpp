@@ -17,32 +17,26 @@ export function activate(context: vscode.ExtensionContext) {
 				vscode.window.showErrorMessage('No active text editor found.');
 				return;
 			}
-			visualizedDocument = editor.document;
-			const originalDocumentUri = visualizedDocument.uri;
 
-			// Close all other editors showing this document (to avoid duplicates)
+			const doc = editor.document;
+			visualizedDocument = doc;
+
+			// If panel already exists, just update and return
+			if (currentPanel) {
+				currentPanel.reveal(vscode.ViewColumn.One);
+				updateWebview(doc);
+				return;
+			}
+
+			// Close all visible editors showing this document before creating the webview
 			for (const ed of vscode.window.visibleTextEditors) {
-				if (ed.document.uri.toString() === originalDocumentUri.toString()) {
+				if (ed.document.uri.toString() === doc.uri.toString()) {
 					await vscode.window.showTextDocument(ed.document, { viewColumn: ed.viewColumn, preview: false });
 					await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
 				}
 			}
 
-			// If a panel already exists, reveal it and ensure the document is visible in the bottom group (no splitting)
-			if (currentPanel) {
-				currentPanel.reveal(vscode.ViewColumn.One);
-				await vscode.window.showTextDocument(originalDocumentUri, { viewColumn: vscode.ViewColumn.Two, preview: false });
-				setTimeout(() => updateWebview(visualizedDocument!), 200);
-				return;
-			}
-
-			// Ensure the document is shown in the top editor group
-			await vscode.window.showTextDocument(originalDocumentUri, { viewColumn: vscode.ViewColumn.One, preview: false });
-
-			// Split the editor downwards to create a bottom group
-			await vscode.commands.executeCommand('workbench.action.splitEditorDown');
-
-			// Create the webview in the top group (ViewColumn.One)
+			// Create the webview in ViewColumn.One (top)
 			const panel = vscode.window.createWebviewPanel(
 				'pulseSequenceViewer',
 				'Pulse Sequence Viewer',
@@ -66,13 +60,14 @@ export function activate(context: vscode.ExtensionContext) {
 
 			panel.webview.html = await getWebviewContent(context, panel);
 
-			// Ensure the bottom editor shows the original document
-			await vscode.window.showTextDocument(originalDocumentUri, { viewColumn: vscode.ViewColumn.Two, preview: false });
+			// Split down to create bottom group (ViewColumn.Two)
+			await vscode.commands.executeCommand('workbench.action.splitEditorDown');
 
-			// Initial render
-			setTimeout(() => {
-				updateWebview(visualizedDocument!);
-			}, 300);
+			// Show the document in the bottom group
+			await vscode.window.showTextDocument(doc.uri, { viewColumn: vscode.ViewColumn.Two, preview: false });
+
+			// Render the diagram
+			updateWebview(doc);
 		} finally {
 			autoOpenInProgress = false;
 		}
@@ -100,7 +95,7 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	// Dispose webview when the visualized document is closed
-	vscode.workspace.onDidCloseTextDocument(doc => {
+	const closeDocListener = vscode.workspace.onDidCloseTextDocument(doc => {
 		if (visualizedDocument && doc.uri.toString() === visualizedDocument.uri.toString()) {
 			if (currentPanel) {
 				currentPanel.dispose();
@@ -110,27 +105,57 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
-	// Auto-open the viewer for spinscript files when active or opened (debounced)
-	const debouncedOpen = debounce((doc: vscode.TextDocument) => {
-		if (doc?.languageId === 'spinscript') {
-			// Only open if there is no panel yet
-			if (!currentPanel) vscode.commands.executeCommand('showpp.openPulseSequenceViewer');
+	// Dispose webview when the visualized document is no longer visible in any editor
+	const closeEditorListener = vscode.window.onDidChangeVisibleTextEditors(editors => {
+		if (currentPanel && visualizedDocument) {
+			const isStillVisible = editors.some(
+				ed => ed.document.uri.toString() === visualizedDocument!.uri.toString()
+			);
+			if (!isStillVisible) {
+				currentPanel.dispose();
+				currentPanel = undefined;
+				visualizedDocument = undefined;
+			}
 		}
-	}, 200);
+	});
 
-	if (vscode.window.activeTextEditor?.document.languageId === 'spinscript') {
-		debouncedOpen(vscode.window.activeTextEditor.document);
-	}
-
+	// Auto-open the viewer when a spinscript file is opened
+	// Trigger on file open (not on every focus change to avoid repeated opens)
 	const openListener = vscode.workspace.onDidOpenTextDocument(doc => {
-		debouncedOpen(doc);
+		if (doc.languageId === 'spinscript') {
+			// Only open if there's no panel, or if the panel is for a different document
+			const isDifferentDoc = !visualizedDocument || visualizedDocument.uri.toString() !== doc.uri.toString();
+			if (!currentPanel || isDifferentDoc) {
+				// Use setTimeout to defer execution and allow editor to fully settle
+				setTimeout(() => {
+					if (vscode.window.activeTextEditor?.document.uri === doc.uri) {
+						vscode.commands.executeCommand('showpp.openPulseSequenceViewer');
+					}
+				}, 100);
+			}
+		}
 	});
 
-	const changeEditorListener = vscode.window.onDidChangeActiveTextEditor(ed => {
-		if (ed?.document) debouncedOpen(ed.document);
+	// Auto-open viewer when a spinscript file becomes visible (handles cached/reopened files)
+	const visibilityListener = vscode.window.onDidChangeVisibleTextEditors(editors => {
+		// Check if any visible editor is a spinscript file without a panel
+		for (const editor of editors) {
+			if (editor.document.languageId === 'spinscript') {
+				const isDifferentDoc = !visualizedDocument || visualizedDocument.uri.toString() !== editor.document.uri.toString();
+				if (!currentPanel || isDifferentDoc) {
+					// Make sure this editor is active and defer to avoid loops
+					if (vscode.window.activeTextEditor === editor) {
+						setTimeout(() => {
+							vscode.commands.executeCommand('showpp.openPulseSequenceViewer');
+						}, 100);
+					}
+					break; // Only open for the first spinscript file
+				}
+			}
+		}
 	});
 
-	context.subscriptions.push(disposable, openListener, changeEditorListener);
+	context.subscriptions.push(disposable, openListener, closeDocListener, closeEditorListener, visibilityListener);
 
 	const closeDisposable = vscode.commands.registerCommand('showpp.closePulseSequenceViewer', async () => {
 		if (currentPanel) { currentPanel.dispose(); currentPanel = undefined; }
