@@ -2,6 +2,18 @@
 
 All notable changes to the "showpp" extension will be documented in this file.
 
+## [0.0.3]
+
+### Added
+- **Responsive Diagram Scaling**: Diagram now redraws automatically when split-view dividers are dragged.
+- **Dynamic Layout Adaptation**: Channels and diagram elements scale to fit available space.
+- **Multi-trigger Resize Detection**: Combines ResizeObserver, window.resize event, and polling for reliable dimension tracking.
+
+### Fixed
+- Fixed webview not responding to split-view vertical resize events.
+- Ensured HTML and body elements take up 100% of available space.
+- Improved fallback dimension detection using window.innerHeight and window.innerWidth.
+
 ## [0.0.2]
 
 ### Added

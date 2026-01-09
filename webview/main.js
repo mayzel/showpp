@@ -1,27 +1,78 @@
 const vscode = acquireVsCodeApi();
 
+let currentModel = null;
+let resizeTimeout;
+let lastWidth = 0;
+let lastHeight = 0;
+
 window.addEventListener('message', event => {
     const message = event.data;
     if (message.command === 'render') {
-        draw(message.data);
+        currentModel = message.data;
+        draw(currentModel);
     }
 });
+
+// Watch for container resize and redraw when size changes
+const container = document.getElementById('viz');
+
+// ResizeObserver for container size changes
+const resizeObserver = new ResizeObserver(() => {
+    if (currentModel) {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            draw(currentModel);
+        }, 50);
+    }
+});
+resizeObserver.observe(container);
+
+// Listen for window resize events (split view resize)
+window.addEventListener('resize', () => {
+    if (currentModel) {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            draw(currentModel);
+        }, 50);
+    }
+});
+
+// Polling as fallback - check dimensions periodically
+setInterval(() => {
+    if (currentModel && container) {
+        // Use both container and window dimensions as fallback
+        const width = container.clientWidth || window.innerWidth;
+        const height = container.clientHeight || window.innerHeight;
+        if (width !== lastWidth || height !== lastHeight) {
+            lastWidth = width;
+            lastHeight = height;
+            draw(currentModel);
+        }
+    }
+}, 100);
 
 function draw(model) {
     const margin = { top: 30, right: 30, bottom: 40, left: 50 };
     const channelHeight = 100;
-    const width = 800;
-    const height = model.channels.length * channelHeight + margin.top + margin.bottom;
+    
+    // Get container dimensions
+    const container = document.getElementById('viz');
+    const width = container.clientWidth || 800;
+    const height = container.clientHeight || 400;
 
     d3.select("#viz").selectAll("*").remove();
     const svg = d3.select("#viz").append("svg")
-        .attr("width", width)
-        .attr("height", height)
+        .attr("viewBox", [0, 0, width, height])
+        .attr("preserveAspectRatio", "xMidYMid meet")
         .style("background", "white");
 
     const x = d3.scaleLinear()
         .domain([0, model.totalDuration])
         .range([margin.left, width - margin.right]);
+
+    // Calculate available height for channels
+    const availableHeight = height - margin.top - margin.bottom;
+    const scaledChannelHeight = Math.max(40, availableHeight / model.channels.length);
 
     const y = d3.scaleBand()
         .domain(model.channels.map(c => c.id))

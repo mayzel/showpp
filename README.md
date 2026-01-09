@@ -7,6 +7,7 @@
 - **Pulse Sequence Visualization**: View pulse sequences as interactive SVG diagrams with multiple channels (F1, F2, Gradient).
 - **Auto-Open for SpinScript Files**: Automatically opens the visualization when you open or focus a `.spin` or `.spinscript` file.
 - **Split-View Layout**: Displays the time diagram above and pulse sequence code below for easy cross-reference.
+- **Responsive Diagram**: The diagram automatically scales to fit the webview, adapting to window and split-view resize events.
 - **Neutral Model Architecture**: Converts pulse programs into a standardized JSON format before rendering.
 - **Supports Delays, Pulses, Gradients, and FID Events**: Visualizes different event types with appropriate representations.
 
@@ -50,6 +51,12 @@ If your pulse sequence files use a different extension (e.g., `.pp`), add this t
 - [ ] Keybinding support for opening/closing the viewer.
 
 ## Release Notes
+
+### 0.0.3
+- Added responsive diagram scaling that reacts to split-view resizing.
+- Diagram now automatically adapts to window and container resize events.
+- Fixed webview to fill available space completely with proper CSS.
+- Improved polling mechanism to detect dimension changes reliably.
 
 ### 0.0.2
 - Added auto-open feature for spinscript language files with support for reopening cached files.
