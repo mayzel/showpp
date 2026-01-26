@@ -135,6 +135,7 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		}
 	});
+	
 
 	// Auto-open viewer when a spinscript file becomes visible (handles cached/reopened files)
 	const visibilityListener = vscode.window.onDidChangeVisibleTextEditors(editors => {
